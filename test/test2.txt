@@ -1,0 +1,5 @@
+func htmlEncode(s string) {
+    hoge := "HOGE"  // this is a line comment.
+	s := strings.NewReplacer("\"", "&quot", "'", "&#39", "\t", "    ")
+	q := strings.NewReplacer("TK_DQUOTE_S", "<em class='string'>", "TK_DQUOTE_E", "</em>")
+}

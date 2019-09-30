@@ -29,11 +29,15 @@ func main() {
 	fmt.Printf("<pre>\n")
 	scanner := bufio.NewScanner(f)
 	for i := 1; scanner.Scan(); i++ {
-		fmt.Println(makeOneLine(htmlEncode(scanner.Text()), i))
+		str := scanner.Text()
+		out = ""
+		scan(str)
+		fmt.Println(makeOneLine(htmlEncode(out), i))
 	}
 	fmt.Printf("</pre>\n")
 	fmt.Printf("</body>\n")
 	fmt.Printf("</html>\n")
+
 }
 
 func makeOneLine(s string, i int) string {
@@ -41,13 +45,10 @@ func makeOneLine(s string, i int) string {
 }
 
 func htmlEncode(s string) string {
-	var ss string
 	// & should be replaced first.
-	ss = strings.Replace(s, "&", "&amp;", -1)
-	ss = strings.Replace(ss, "<", "&lt;", -1)
-	ss = strings.Replace(ss, ">", "&gt;", -1)
-	ss = strings.Replace(ss, "\"", "&quot;", -1)
-	ss = strings.Replace(ss, "'", "&#39;", -1)
-	ss = strings.Replace(ss, "\t", "    ", -1)
-	return ss
+	rSymbol := strings.NewReplacer("&", "&amp", "<", "&lt", ">", "&gt", "\"", "&quot", "'", "&#39", "\t", "    ")
+	rDquote := strings.NewReplacer("TK_STRING_S", "<em class='string'>", "TK_STRING_E", "</em>")
+	rComment := strings.NewReplacer("TK_COMMENT_S", "<em class='comment'>", "TK_COMMENT_E", "</em>")
+
+	return rComment.Replace(rDquote.Replace(rSymbol.Replace(s)))
 }
