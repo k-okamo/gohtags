@@ -44,11 +44,36 @@ func makeOneLine(s string, i int) string {
 	return fmt.Sprintf("<a id='L%d' name='L%d'></a>%4d %s", i, i, i, s)
 }
 
-func htmlEncode(s string) string {
-	// & should be replaced first.
-	rSymbol := strings.NewReplacer("&", "&amp", "<", "&lt", ">", "&gt", "\"", "&quot", "'", "&#39", "\t", "    ")
-	rDquote := strings.NewReplacer("TK_STRING_S", "<em class='string'>", "TK_STRING_E", "</em>")
-	rComment := strings.NewReplacer("TK_COMMENT_S", "<em class='comment'>", "TK_COMMENT_E", "</em>")
+type replacePair struct {
+	from string
+	to   string
+}
 
-	return rComment.Replace(rDquote.Replace(rSymbol.Replace(s)))
+var htmlSymbol = []replacePair{
+	{from: "&", to: "&amp"}, // & should be replaced first.
+	{from: "<", to: "&lt"},
+	{from: ">", to: "&gt"},
+	{from: "\"", to: "&quot"},
+	{from: "'", to: "&#39"},
+	{from: "\t", to: "    "},
+}
+
+var htmlTag = []replacePair{
+	{from: "TK_STRING_S", to: "<em class='string'>"},
+	{from: "TK_STRING_E", to: "</em>"},
+	{from: "TK_COMMENT_S", to: "<em class='comment'>"},
+	{from: "TK_COMMENT_E", to: "</em>"},
+}
+
+func htmlEncode(s string) string {
+	ss := s
+	for _, p := range htmlSymbol {
+		r := strings.NewReplacer(p.from, p.to)
+		ss = r.Replace(ss)
+	}
+	for _, p := range htmlTag {
+		r := strings.NewReplacer(p.from, p.to)
+		ss = r.Replace(ss)
+	}
+	return ss
 }

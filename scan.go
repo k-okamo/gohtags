@@ -16,7 +16,7 @@ var (
 	}
 )
 
-// Tokenizer
+// scanner
 func scan(in string) {
 	p := in
 
@@ -49,6 +49,7 @@ func scan(in string) {
 				continue
 			}
 		}
+
 		// newline
 		// white space
 		// block comment
@@ -56,14 +57,13 @@ func scan(in string) {
 
 		out += string(p[0])
 		p = p[1:]
-
 	}
 err:
 }
 
-// s starts from double quotation(").
 func string_literal(s string) string {
 
+	// s starts from double quotation(").
 	out += "TK_STRING_S"
 	out += s[:1]
 	s = s[1:]
@@ -77,7 +77,6 @@ func string_literal(s string) string {
 			s = s[2:]
 			continue
 		}
-
 		out += string(s[0])
 		s = s[1:]
 		if len(s) == 0 {
@@ -88,7 +87,6 @@ func string_literal(s string) string {
 	out += "TK_STRING_E"
 err:
 	return s[1:]
-
 }
 
 func line_comment(s string) {
