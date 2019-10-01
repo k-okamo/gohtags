@@ -59,6 +59,8 @@ var htmlSymbol = []replacePair{
 }
 
 var htmlTag = []replacePair{
+	{from: "TK_KEYWORD_S", to: "<strong class='reserved'>"},
+	{from: "TK_KEYWORD_E", to: "</strong>"},
 	{from: "TK_STRING_S", to: "<em class='string'>"},
 	{from: "TK_STRING_E", to: "</em>"},
 	{from: "TK_COMMENT_S", to: "<em class='comment'>"},

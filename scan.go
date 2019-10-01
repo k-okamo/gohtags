@@ -9,10 +9,24 @@ var (
 	isComment bool
 )
 
-// scanner
-func scan(in string) {
-	p := in
+var keywords = []string{
+	"break", "case", "chan", "const", "continue",
+	"default", "defer", "else", "fallthrough", "for",
+	"func", "go", "goto", "if", "import",
+	"interface", "map", "package", "range", "return",
+	"select", "struct", "switch", "type", "var",
+}
+var primtypes = []string{
+	"uint8", "uint16", "uint32", "uint64", "uint", "uintptr", "byte",
+	"int8", "int16", "int32", "int64", "int", "rune",
+	"float32", "float64", "string",
+}
 
+// scanner
+func scan(s string) {
+	p := s
+
+ROOT:
 	for len(p) != 0 {
 		c := rune(p[0])
 
@@ -63,9 +77,25 @@ func scan(in string) {
 				goto err
 			}
 			if rune(p[1]) == '"' {
-				out += string(p[0:1])
+				out += string(p[:1])
 				p = p[2:]
 				continue
+			}
+		}
+
+		// keywords and primitive types
+		for _, key := range append(keywords, primtypes...) {
+			if len(p) < len(key) {
+				continue
+			}
+			if p == key {
+				p = keyword(p, key)
+				break ROOT
+			}
+			l := len(key)
+			if p[:l] == key && !isIdentLetter(rune(p[l])) {
+				p = keyword(p, key)
+				break
 			}
 		}
 
@@ -73,6 +103,20 @@ func scan(in string) {
 		p = p[1:]
 	}
 err:
+}
+
+func isIdentLetter(r rune) bool {
+	return r == '_' || unicode.IsLetter(r) || unicode.IsDigit(r)
+}
+
+func keyword(s, key string) string {
+	out += "TK_KEYWORD_S"
+	out += s[:len(key)]
+	out += "TK_KEYWORD_E"
+	if len(s) == len(key) {
+		return ""
+	}
+	return s[len(key):]
 }
 
 func whitespace(s string) string {

@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+    
+    varnum := 0 // keyword is a prefix of an identifier.
+    numver := 0 // keyword is a postfix of an identifier.
+
     var s string    // this is a line comment.
     s = "HOGE"
     s = os.Args[1]
@@ -33,3 +37,6 @@ func main() {
 
 }
 
+func b() {
+    return
+}
