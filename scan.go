@@ -38,8 +38,7 @@ func scan(in string) {
 		// line comment
 		if c == '/' {
 			if len(p) > 1 && rune(p[1]) == '/' {
-				line_comment(p)
-				p = ""
+				p = line_comment(p)
 				continue
 			}
 		}
@@ -69,9 +68,6 @@ func scan(in string) {
 				continue
 			}
 		}
-
-		// newline
-		// white space
 
 		out += string(p[0])
 		p = p[1:]
@@ -121,10 +117,11 @@ err:
 	return s[1:]
 }
 
-func line_comment(s string) {
+func line_comment(s string) string {
 	out += "TK_COMMENT_S"
 	out += s
 	out += "TK_COMMENT_E"
+	return ""
 }
 
 func block_comment(s string) string {
