@@ -1,7 +1,7 @@
 package main
 
 import (
-//	"unicode"
+	"unicode"
 )
 
 var (
@@ -15,6 +15,12 @@ func scan(in string) {
 
 	for len(p) != 0 {
 		c := rune(p[0])
+
+		// Whitespace
+		if unicode.IsSpace(c) {
+			p = whitespace(p)
+			continue
+		}
 
 		// block comment
 		if isComment {
@@ -66,13 +72,16 @@ func scan(in string) {
 
 		// newline
 		// white space
-		// block comment
-		// character literal
 
 		out += string(p[0])
 		p = p[1:]
 	}
 err:
+}
+
+func whitespace(s string) string {
+	out += s[:1]
+	return s[1:]
 }
 
 func character_literal(s string) string {
