@@ -38,6 +38,14 @@ func scan(in string) {
 			}
 		}
 
+		// Character literal
+		if c == '\'' {
+			if len(p) > 2 {
+				p = character_literal(p)
+				continue
+			}
+		}
+
 		// String literal
 		if c == '"' {
 			p = string_literal(p)
@@ -65,6 +73,15 @@ func scan(in string) {
 		p = p[1:]
 	}
 err:
+}
+
+func character_literal(s string) string {
+
+	out += "TK_STRING_S"
+	out += s[:3]
+	out += "TK_STRING_E"
+	s = s[3:]
+	return s
 }
 
 func string_literal(s string) string {
