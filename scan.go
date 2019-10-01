@@ -5,15 +5,8 @@ import (
 )
 
 var (
-	out   string
-	token = map[string]string{
-		"TK_STRING_S":   "<em class='string'>",
-		"TK_STRING_E":   "</em>",
-		"TK_COMMENT_S":  "<em class='comment'>",
-		"TK_COMMENT_E":  "</em>",
-		"TK_RESERVED_S": "<strong class='reserved'>",
-		"TK_RESERVED_E": "</strong>",
-	}
+	out       string
+	isComment bool
 )
 
 // scanner
@@ -22,6 +15,19 @@ func scan(in string) {
 
 	for len(p) != 0 {
 		c := rune(p[0])
+
+		// block comment
+		if isComment {
+			p = block_comment(p)
+			continue
+		}
+		if c == '/' {
+			if len(p) > 1 && rune(p[1]) == '*' {
+				isComment = true
+				p = block_comment(p)
+				continue
+			}
+		}
 
 		// line comment
 		if c == '/' {
@@ -93,4 +99,28 @@ func line_comment(s string) {
 	out += "TK_COMMENT_S"
 	out += s
 	out += "TK_COMMENT_E"
+}
+
+func block_comment(s string) string {
+	p := s
+	out += "TK_COMMENT_S"
+
+	for len(p) > 0 {
+		c := rune(p[0])
+		if c == '*' {
+			if len(p) > 1 && rune(p[1]) == '/' {
+				out += string(p[0:2])
+				p = p[2:]
+				out += "TK_COMMENT_E"
+				isComment = false
+				break
+			}
+		}
+		out += string(c)
+		p = p[1:]
+	}
+	if isComment {
+		out += "TK_COMMENT_E"
+	}
+	return string(p)
 }

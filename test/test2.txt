@@ -1,5 +1,35 @@
-func htmlEncode(s string) {
-    hoge := "HOGE"  // this is a line comment.
-	s := strings.NewReplacer("\"", "&quot", "'", "&#39", "\t", "    ")
-	q := strings.NewReplacer("TK_DQUOTE_S", "<em class='string'>", "TK_DQUOTE_E", "</em>")
+package main
+
+import (
+    "os"
+    "fmt"
+    "strconv"
+    "strings"
+)
+
+func main() {
+    var s string    // this is a line comment.
+    s = "HOGE"
+    s = os.Args[1]
+
+    var r rune
+    r = 'a' 
+    
+    /* this is a single-line block comment. */
+    /* this is a multi-lne
+       block comment. */
+
+	t := strings.NewReplacer("\"", "&quot", "'", "&#39", "\t", "    ")
+    
+    var n int
+    n, _ = strconv,Atoi(s)
+
+    for i :=0 /* counter */; i < 100; i++ {
+        fmt.Println("convert") // output.
+        fmt.Println(n) /* output. */
+    }
+
+    /* this is a comment including "string" */
+
 }
+
