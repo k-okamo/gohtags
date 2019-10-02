@@ -24,6 +24,7 @@ func main() {
 	fmt.Printf("<html>\n")
 	fmt.Printf("<head>\n")
 	fmt.Printf("<title>%s</title>\n", os.Args[1])
+	printCSS()
 	fmt.Printf("</head>\n")
 	fmt.Printf("<body>\n")
 	fmt.Printf("<pre>\n")
@@ -38,6 +39,19 @@ func main() {
 	fmt.Printf("</body>\n")
 	fmt.Printf("</html>\n")
 
+}
+
+func printCSS() {
+	// embed CSS into html(temporary).
+	fmt.Println("<style type='text/css'>")
+	fmt.Println("body{color: #B8BCC7; background-color: #222628; font-family: 'MyricaM M', courier, sans-serif; font-size: 100%; line-height: 0.95em;}")
+	fmt.Println("pre {font-family: 'MyricaM M', Courier, sans-serif;}")
+	fmt.Println("a {color: #B9BCC7;}")
+	fmt.Println("em {font-style: normal;}")
+	fmt.Println("em.comment {color: #505C77;}")
+	fmt.Println("em.string {color: #89B3C2;}")
+	fmt.Println("strong.reserved {color: #708EBB;}")
+	fmt.Println("</style>")
 }
 
 func makeOneLine(s string, i int) string {

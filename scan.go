@@ -93,7 +93,7 @@ ROOT:
 				break ROOT
 			}
 			l := len(key)
-			if p[:l] == key && !isIdentLetter(rune(p[l])) {
+			if p[:l] == key && unicode.IsSpace(rune(p[l])) {
 				p = keyword(p, key)
 				break
 			}
@@ -103,10 +103,6 @@ ROOT:
 		p = p[1:]
 	}
 err:
-}
-
-func isIdentLetter(r rune) bool {
-	return r == '_' || unicode.IsLetter(r) || unicode.IsDigit(r)
 }
 
 func keyword(s, key string) string {

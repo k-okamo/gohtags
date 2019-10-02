@@ -9,6 +9,7 @@ import (
 
 func main() {
     
+    new_map()   // keyword is between symbols.
     varnum := 0 // keyword is a prefix of an identifier.
     numver := 0 // keyword is a postfix of an identifier.
 
