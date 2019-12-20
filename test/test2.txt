@@ -8,10 +8,14 @@ import (
 )
 
 func main() {
+
+    rawstr := `raw string literal
+    this is second line
+    this is third line`
     
     new_map()   // keyword is between symbols.
     varnum := 0 // keyword is a prefix of an identifier.
-    numver := 0 // keyword is a postfix of an identifier.
+    numvar := 0 // keyword is a postfix of an identifier.
 
     var s string    // this is a line comment.
     s = "HOGE"
@@ -24,6 +28,8 @@ func main() {
     /* this is a multi-lne
        block comment. */
 
+    // block comment is /* inside of line comment */
+
 	t := strings.NewReplacer("\"", "&quot", "'", "&#39", "\t", "    ")
     
     var n int
@@ -32,6 +38,8 @@ func main() {
     for i :=0 /* counter */; i < 100; i++ {
         fmt.Println("convert") // output.
         fmt.Println(n) /* output. */
+        fmt.Println("this is a string including /* comment */ ")
+        fmt.Println("this is a string including // comment  ")
     }
 
     /* this is a comment including "string" */

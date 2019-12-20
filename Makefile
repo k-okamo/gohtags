@@ -7,4 +7,5 @@ SRCS=$(wildcard *.go)
 	
 clean:
 	rm -f gohtags *.html
+	rm -rf HTML
 
